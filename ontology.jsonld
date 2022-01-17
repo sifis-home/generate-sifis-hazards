@@ -1,0 +1,734 @@
+{
+  "@graph" : [ {
+    "@id" : "_:b0",
+    "@type" : "owl:Class",
+    "unionOf" : {
+      "@list" : [ "sho:Category", "sho:Hazard" ]
+    }
+  }, {
+    "@id" : "_:b10",
+    "xsd:minInclusive" : 0
+  }, {
+    "@id" : "_:b3",
+    "@type" : "owl:Class",
+    "unionOf" : {
+      "@list" : [ "sho:Category", "sho:Hazard" ]
+    }
+  }, {
+    "@id" : "_:b4",
+    "@type" : "rdfs:Datatype",
+    "onDatatype" : "xsd:integer",
+    "withRestrictions" : {
+      "@list" : [ "_:b10", "_:b6" ]
+    }
+  }, {
+    "@id" : "_:b6",
+    "xsd:maxInclusive" : 10
+  }, {
+    "@id" : "dcterms:creator",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "dcterms:description",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "dcterms:license",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "dcterms:modified",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "dcterms:publisher",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "dcterms:source",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "dcterms:title",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "vann:preferredNamespacePrefix",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "vann:preferredNamespaceUri",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "http://schema.org/description",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "http://schema.org/domainIncludes",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "http://schema.org/name",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "http://schema.org/rangeIncludes",
+    "@type" : "owl:AnnotationProperty"
+  }, {
+    "@id" : "xsd:date",
+    "@type" : "rdfs:Datatype"
+  }, {
+    "@id" : "https://purl.org/sifis/hazards",
+    "@type" : "owl:Ontology",
+    "creator" : "https://www.iit.cnr.it/marco.rasori/",
+    "dcterms:description" : {
+      "@language" : "en",
+      "@value" : "The SIFIS-Home Hazards Ontology (SHO) has been created to extend the Thing Description (TD) of smart devices within Web of Things (WoT). The ontology defines various types of hazard as Individual which can be used to characterise Properties, Actions, and Events in a TD."
+    },
+    "modified" : "2022-01-13",
+    "title" : {
+      "@language" : "en",
+      "@value" : "The SIFIS-Home hazards ontology"
+    },
+    "preferredNamespacePrefix" : "sho",
+    "preferredNamespaceUri" : "https://purl.org/sifis/hazards",
+    "versionInfo" : "v1.0.0"
+  }, {
+    "@id" : "sho:AirPoisoning",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of safety-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "AirPoisoning"
+    },
+    "description" : "The execution may release toxic gases",
+    "hasCategory" : "sho:Safety",
+    "name" : "air poisoning"
+  }, {
+    "@id" : "sho:Asphyxia",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of safety-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "Asphyxia"
+    },
+    "description" : "The execution may cause oxygen deficiency by gaseous substances",
+    "hasCategory" : "sho:Safety",
+    "name" : "asphyxia"
+  }, {
+    "@id" : "sho:AudioVideoRecordAndStore",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of privacy-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "AudioVideoRecordAndStore"
+    },
+    "description" : "The execution authorises the app to record and save a video with audio on persistent storage",
+    "hasCategory" : "sho:Privacy",
+    "name" : "audio video record and store"
+  }, {
+    "@id" : "sho:AudioVideoStream",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of privacy-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "AudioVideoStream"
+    },
+    "description" : "The execution authorises the app to obtain a video stream with audio",
+    "hasCategory" : "sho:Privacy",
+    "name" : "audio video stream"
+  }, {
+    "@id" : "sho:Category",
+    "@type" : "owl:Class",
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A broad class gathering hazards with similar characteristics."
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "Category"
+    },
+    "disjointWith" : [ "https://www.w3.org/2019/wot/td#InteractionAffordance", "sho:Hazard" ]
+  }, {
+    "@id" : "sho:ElectricEnergyConsumption",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of finance-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "ElectricEnergyConsumption"
+    },
+    "description" : "The execution enables a device that consumes electricity",
+    "hasCategory" : "sho:Financial",
+    "name" : "electric energy consumption",
+    "riskScore" : ""
+  }, {
+    "@id" : "sho:Explosion",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of safety-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "Explosion"
+    },
+    "description" : "The execution may cause an explosion",
+    "hasCategory" : "sho:Safety",
+    "name" : "explosion"
+  }, {
+    "@id" : "sho:Financial",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Category"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of category referring to hazards that lead to an expense"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "Financial"
+    },
+    "description" : "Category which includes all the financial-related hazards.",
+    "name" : "financial"
+  }, {
+    "@id" : "sho:FireHazard",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of safety-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "FireHazard"
+    },
+    "description" : "The execution may cause fire",
+    "hasCategory" : "sho:Safety",
+    "name" : "fire hazard",
+    "riskScore" : ""
+  }, {
+    "@id" : "sho:GasConsumption",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of finance-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "GasConsumption"
+    },
+    "description" : "The execution enables a device that consumes gas",
+    "hasCategory" : "sho:Financial",
+    "name" : "gas consumption",
+    "riskScore" : ""
+  }, {
+    "@id" : "sho:Hazard",
+    "@type" : "owl:Class",
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A possible risk associated with the invocation of a given interaction affordance. Within a thing description, properties, actions, and events can be invoked, and their execution may lead to hazards."
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "Hazard"
+    },
+    "disjointWith" : "https://www.w3.org/2019/wot/td#InteractionAffordance"
+  }, {
+    "@id" : "sho:LogEnergyConsumption",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of privacy-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "LogEnergyConsumption"
+    },
+    "description" : "The execution authorises the app to get and save information about the app's energy impact on the device the app runs on",
+    "hasCategory" : "sho:Privacy",
+    "name" : "log energy consumption"
+  }, {
+    "@id" : "sho:LogUsageTime",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of privacy-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "LogUsageTime"
+    },
+    "description" : "The execution authorises the app to get and save information about the app's duration of use",
+    "hasCategory" : "sho:Privacy",
+    "name" : "log usage time"
+  }, {
+    "@id" : "sho:PaySubscriptionFee",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of finance-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "PaySubscriptionFee"
+    },
+    "description" : "The execution authorises the app to use payment information and make a periodic payment",
+    "hasCategory" : "sho:Financial",
+    "name" : "pay subscription fee"
+  }, {
+    "@id" : "sho:PowerOutage",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of safety-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "PowerOutage"
+    },
+    "description" : "The execution may cause an interruption in the supply of electricity",
+    "hasCategory" : "sho:Safety",
+    "name" : "power outage",
+    "riskScore" : ""
+  }, {
+    "@id" : "sho:PowerSurge",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of safety-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "PowerSurge"
+    },
+    "description" : "The execution may lead to exposure to high voltages",
+    "hasCategory" : "sho:Safety",
+    "name" : "power surge"
+  }, {
+    "@id" : "sho:Privacy",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Category"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of category referring to hazards that may compromise privacy"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "Privacy"
+    },
+    "description" : "Category which includes all the privacy-related hazards.",
+    "name" : "privacy"
+  }, {
+    "@id" : "sho:RecordIssuedCommands",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of privacy-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "RecordIssuedCommands"
+    },
+    "description" : "The execution authorises the app to get and save user inputs",
+    "hasCategory" : "sho:Privacy",
+    "name" : "record issued commands"
+  }, {
+    "@id" : "sho:RecordUserPreferences",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of privacy-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "RecordUserPreferences"
+    },
+    "description" : "The execution authorises the app to get and save information about the user's preferences",
+    "hasCategory" : "sho:Privacy",
+    "name" : "record user preferences"
+  }, {
+    "@id" : "sho:Safety",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Category"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of category referring to hazards that may lead to physical harm to people and/or assets"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "Safety"
+    },
+    "description" : "Category which includes all the safety-related hazards.",
+    "name" : "safety"
+  }, {
+    "@id" : "sho:SpendMoney",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of finance-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "SpendMoney"
+    },
+    "description" : "The execution authorises the app to use payment information and make a payment transaction",
+    "hasCategory" : "sho:Financial",
+    "name" : "spend money"
+  }, {
+    "@id" : "sho:SpoiledFood",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of safety-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "SpoiledFood"
+    },
+    "description" : "The execution may lead to rotten food",
+    "hasCategory" : "sho:Safety",
+    "name" : "spoiled food"
+  }, {
+    "@id" : "sho:TakeDeviceScreenshots",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of privacy-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "TakeDeviceScreenshots"
+    },
+    "description" : "The execution authorises the app to read the display output and take screenshots of it",
+    "hasCategory" : "sho:Privacy",
+    "name" : "take device screenshots"
+  }, {
+    "@id" : "sho:TakePictures",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of privacy-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "TakePictures"
+    },
+    "description" : "The execution authorises the app to use a camera and take photos",
+    "hasCategory" : "sho:Privacy",
+    "name" : "take pictures"
+  }, {
+    "@id" : "sho:UnauthorisedPhysicalAccess",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of safety-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "UnauthorisedPhysicalAccess"
+    },
+    "description" : "The execution disables a protection mechanism and unauthorised individuals may physically enter home",
+    "hasCategory" : "sho:Safety",
+    "name" : "unauthorised physical access"
+  }, {
+    "@id" : "sho:WaterConsumption",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of finance-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "WaterConsumption"
+    },
+    "description" : "The execution enables a device that consumes water",
+    "hasCategory" : "sho:Financial",
+    "name" : "water consumption",
+    "riskScore" : ""
+  }, {
+    "@id" : "sho:WaterFlooding",
+    "@type" : "owl:NamedIndividual",
+    "rdf:type" : {
+      "@id" : "sho:Hazard"
+    },
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A type of safety-related hazard"
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "WaterFlooding"
+    },
+    "description" : "The execution allows water usage which may lead to flood",
+    "hasCategory" : "sho:Safety",
+    "name" : "water flooding"
+  }, {
+    "@id" : "sho:description",
+    "@type" : "owl:DatatypeProperty",
+    "domainIncludes" : [ "sho:Hazard", "sho:Category" ],
+    "rangeIncludes" : "xsd:string",
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A relationship identifying the description of either a hazard or a category."
+    },
+    "domain" : "_:b0",
+    "label" : {
+      "@language" : "en",
+      "@value" : "description"
+    },
+    "range" : "xsd:string"
+  }, {
+    "@id" : "sho:hasCategory",
+    "@type" : "owl:ObjectProperty",
+    "domainIncludes" : "sho:Hazard",
+    "rangeIncludes" : "sho:Category",
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A relationship identifying the category of a hazard."
+    },
+    "domain" : "sho:Hazard",
+    "label" : {
+      "@language" : "en",
+      "@value" : "has category"
+    },
+    "range" : "sho:Category"
+  }, {
+    "@id" : "sho:hasHazard",
+    "@type" : "owl:ObjectProperty",
+    "domainIncludes" : "https://www.w3.org/2019/wot/td#InteractionAffordance",
+    "rangeIncludes" : "sho:Hazard",
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A relationship identifying a hazard of an interaction affordance, being either a property, an action, or an event."
+    },
+    "domain" : "https://www.w3.org/2019/wot/td#InteractionAffordance",
+    "label" : {
+      "@language" : "en",
+      "@value" : "has hazard"
+    },
+    "range" : "sho:Hazard"
+  }, {
+    "@id" : "sho:level",
+    "@type" : "rdfs:Datatype",
+    "comment" : {
+      "@language" : "en",
+      "@value" : "An integer in the range from zero to ten included. [0,10]"
+    },
+    "equivalentClass" : "_:b4"
+  }, {
+    "@id" : "sho:name",
+    "@type" : "owl:DatatypeProperty",
+    "domainIncludes" : [ "sho:Hazard", "sho:Category" ],
+    "rangeIncludes" : "xsd:string",
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A relationship identifying the name of either a hazard or a category."
+    },
+    "domain" : "_:b3",
+    "label" : {
+      "@language" : "en",
+      "@value" : "name"
+    },
+    "range" : "xsd:string"
+  }, {
+    "@id" : "sho:riskScore",
+    "@type" : "owl:DatatypeProperty",
+    "domainIncludes" : "sho:Hazard",
+    "rangeIncludes" : "sho:level",
+    "comment" : {
+      "@language" : "en",
+      "@value" : "A relationship identifying the risk score associated with a hazard."
+    },
+    "domain" : "sho:Hazard",
+    "label" : {
+      "@language" : "en",
+      "@value" : "risk score"
+    },
+    "range" : "sho:level"
+  }, {
+    "@id" : "https://www.w3.org/2019/wot/td#InteractionAffordance",
+    "@type" : "owl:Class",
+    "comment" : {
+      "@language" : "en",
+      "@value" : "Metadata of a Thing that defines how a consumer may interact with the Thing."
+    },
+    "label" : {
+      "@language" : "en",
+      "@value" : "Interaction affordance"
+    }
+  } ],
+  "@context" : {
+    "label" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#label"
+    },
+    "comment" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#comment"
+    },
+    "name" : {
+      "@id" : "https://purl.org/sifis/hazards#name"
+    },
+    "description" : {
+      "@id" : "https://purl.org/sifis/hazards#description"
+    },
+    "hasCategory" : {
+      "@id" : "https://purl.org/sifis/hazards#hasCategory",
+      "@type" : "@id"
+    },
+    "unionOf" : {
+      "@id" : "http://www.w3.org/2002/07/owl#unionOf",
+      "@type" : "@id"
+    },
+    "rest" : {
+      "@id" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest",
+      "@type" : "@id"
+    },
+    "first" : {
+      "@id" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#first",
+      "@type" : "@id"
+    },
+    "riskScore" : {
+      "@id" : "https://purl.org/sifis/hazards#riskScore",
+      "@type" : "https://purl.org/sifis/hazards#level"
+    },
+    "rangeIncludes" : {
+      "@id" : "http://schema.org/rangeIncludes",
+      "@type" : "@id"
+    },
+    "domainIncludes" : {
+      "@id" : "http://schema.org/domainIncludes",
+      "@type" : "@id"
+    },
+    "range" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#range",
+      "@type" : "@id"
+    },
+    "domain" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#domain",
+      "@type" : "@id"
+    },
+    "withRestrictions" : {
+      "@id" : "http://www.w3.org/2002/07/owl#withRestrictions",
+      "@type" : "@id"
+    },
+    "onDatatype" : {
+      "@id" : "http://www.w3.org/2002/07/owl#onDatatype",
+      "@type" : "@id"
+    },
+    "maxInclusive" : {
+      "@id" : "http://www.w3.org/2001/XMLSchema#maxInclusive",
+      "@type" : "http://www.w3.org/2001/XMLSchema#integer"
+    },
+    "disjointWith" : {
+      "@id" : "http://www.w3.org/2002/07/owl#disjointWith",
+      "@type" : "@id"
+    },
+    "equivalentClass" : {
+      "@id" : "http://www.w3.org/2002/07/owl#equivalentClass",
+      "@type" : "@id"
+    },
+    "versionInfo" : {
+      "@id" : "http://www.w3.org/2002/07/owl#versionInfo"
+    },
+    "preferredNamespaceUri" : {
+      "@id" : "http://purl.org/vocab/vann/preferredNamespaceUri"
+    },
+    "preferredNamespacePrefix" : {
+      "@id" : "http://purl.org/vocab/vann/preferredNamespacePrefix"
+    },
+    "title" : {
+      "@id" : "http://purl.org/dc/terms/title"
+    },
+    "modified" : {
+      "@id" : "http://purl.org/dc/terms/modified",
+      "@type" : "http://www.w3.org/2001/XMLSchema#date"
+    },
+    "creator" : {
+      "@id" : "http://purl.org/dc/terms/creator",
+      "@type" : "@id"
+    },
+    "minInclusive" : {
+      "@id" : "http://www.w3.org/2001/XMLSchema#minInclusive",
+      "@type" : "http://www.w3.org/2001/XMLSchema#integer"
+    },
+    "@vocab" : "https://purl.org/sifis/hazards#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "xml" : "http://www.w3.org/XML/1998/namespace",
+    "dcterms" : "http://purl.org/dc/terms/",
+    "sho" : "https://purl.org/sifis/hazards#",
+    "vann" : "http://purl.org/vocab/vann/"
+  }
+}

@@ -1,0 +1,20 @@
+[package]
+name = "generate-sifis-hazards"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Generate hazards for Sifis APIs as documentation."
+repository = "https://github.com/sifis-home/libsifis-rs"
+homepage = "https://github.com/sifis-home/libsifis-rs"
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1"
+minijinja = { version = "0.12", features = ["source"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1" }
+structopt = "0.3"
+arg_enum_proc_macro = "0.3.2"
+lazy_static = "1.4"
