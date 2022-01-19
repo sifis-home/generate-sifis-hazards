@@ -42,8 +42,7 @@ impl Templates {
 struct Ontology {
     #[serde(rename = "@graph")]
     graph: Vec<serde_json::Value>,
-    #[serde(rename = "@context")]
-    #[serde(skip_serializing)]
+    #[serde(skip_deserializing)]
     _context: serde_json::Value,
 }
 
