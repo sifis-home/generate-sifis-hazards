@@ -2,7 +2,7 @@ mod filters;
 mod toolchain;
 
 use std::collections::HashMap;
-use std::fs::{write, File};
+use std::fs::{create_dir_all, write, File};
 use std::io::BufReader;
 use std::path::{Path, PathBuf};
 
@@ -49,6 +49,7 @@ struct Ontology {
 struct SifisTemplate {
     context: HashMap<String, Value>,
     files: HashMap<PathBuf, &'static str>,
+    dirs: Vec<PathBuf>,
     source: Source,
 }
 
@@ -58,8 +59,14 @@ impl SifisTemplate {
         let SifisTemplate {
             context,
             files,
+            dirs,
             source,
         } = self;
+
+        // Create dirs
+        for dir in dirs {
+            create_dir_all(dir)?
+        }
 
         env.set_source(source);
         env.add_filter("hypens_to_underscores", hypens_to_underscores);
@@ -79,19 +86,25 @@ impl SifisTemplate {
 trait BuildTemplate {
     fn define(
         &self,
+        api_name: &str,
         ontology: Ontology,
         output_path: &Path,
-    ) -> (HashMap<PathBuf, &'static str>, HashMap<String, Value>);
+    ) -> (
+        HashMap<PathBuf, &'static str>,
+        Vec<PathBuf>,
+        HashMap<String, Value>,
+    );
 
     fn get_templates() -> &'static [(&'static str, &'static str)];
 
-    fn build(&self, ontology: Ontology, output_path: &Path) -> SifisTemplate {
-        let (files, context) = self.define(ontology, output_path);
+    fn build(&self, api_name: &str, ontology: Ontology, output_path: &Path) -> SifisTemplate {
+        let (files, dirs, context) = self.define(api_name, ontology, output_path);
         let source = build_source(Self::get_templates());
 
         SifisTemplate {
             context,
             files,
+            dirs,
             source,
         }
     }
@@ -111,6 +124,7 @@ fn build_source(templates: &[(&str, &str)]) -> Source {
 /// Adds hazards to Sifis APIs
 pub fn adds_hazards_to_api(
     template_type: Templates,
+    api_name: &str,
     ontology_path: &Path,
     output_path: &Path,
 ) -> Result<()> {
@@ -122,7 +136,7 @@ pub fn adds_hazards_to_api(
     let ontology = serde_json::from_reader(reader)?;
 
     let template = match template_type {
-        Templates::Rust => Rust::create().build(ontology, output_path),
+        Templates::Rust => Rust::create().build(api_name, ontology, output_path),
     };
 
     template.render()

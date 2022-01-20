@@ -11,10 +11,13 @@ struct Opts {
     /// Name of a builtin template
     #[structopt(long, short, possible_values = &Templates::variants())]
     template: Templates,
+    /// Name of the API library
+    #[structopt(long, short)]
+    api_name: String,
     /// Path to the ontology file
     #[structopt(parse(from_os_str))]
     ontology_path: PathBuf,
-    /// Output path
+    /// Path to the generated API
     #[structopt(parse(from_os_str))]
     output_path: PathBuf,
 }
@@ -26,7 +29,12 @@ lazy_static::lazy_static! {
 fn main() -> anyhow::Result<()> {
     let opts = Opts::from_args();
 
-    adds_hazards_to_api(opts.template, &opts.ontology_path, &opts.output_path)?;
+    adds_hazards_to_api(
+        opts.template,
+        &opts.api_name,
+        &opts.ontology_path,
+        &opts.output_path,
+    )?;
 
     Ok(())
 }
