@@ -45,6 +45,7 @@ impl BuildTemplate for Rust {
         HashMap<String, Value>,
     ) {
         let mut context = HashMap::new();
+        let mut hazards = Vec::new();
 
         let check_type =
             |v: &serde_json::Value| v.as_str().unwrap_or_default() == "owl:NamedIndividual";
@@ -71,9 +72,12 @@ impl BuildTemplate for Rust {
                         id.to_owned() + "_description",
                         Value::from_serializable(&description.to_owned()),
                     );
+                    hazards.push(id.trim_start_matches("sho_").to_owned());
                 }
             }
         }
+
+        context.insert("hazards".to_string(), Value::from_serializable(&hazards));
 
         context.insert(
             "name".to_owned(),

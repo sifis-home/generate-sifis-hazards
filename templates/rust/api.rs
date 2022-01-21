@@ -1,3 +1,10 @@
+/// Type of Hazards
+pub enum Hazards {
+{%- for hazard in hazards -%}
+    {{ hazard }},
+{%- endfor -%}
+}
+
 /// {{ sho_FireHazard_name }}
 /// {{ sho_FireHazard_description }}
 pub fn turn_on_light() {
