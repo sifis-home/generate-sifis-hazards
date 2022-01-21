@@ -1,29 +1,32 @@
 {
   "@graph" : [ {
     "@id" : "_:b0",
-    "@type" : "owl:Class",
-    "unionOf" : {
-      "@list" : [ "sho:Category", "sho:Hazard" ]
-    }
-  }, {
-    "@id" : "_:b10",
-    "xsd:minInclusive" : 0
+    "xsd:maxInclusive" : 10
   }, {
     "@id" : "_:b3",
+    "xsd:minInclusive" : 0
+  }, {
+    "@id" : "_:b4",
     "@type" : "owl:Class",
     "unionOf" : {
       "@list" : [ "sho:Category", "sho:Hazard" ]
-    }
-  }, {
-    "@id" : "_:b4",
-    "@type" : "rdfs:Datatype",
-    "onDatatype" : "xsd:integer",
-    "withRestrictions" : {
-      "@list" : [ "_:b10", "_:b6" ]
     }
   }, {
     "@id" : "_:b6",
-    "xsd:maxInclusive" : 10
+    "@type" : "owl:Class",
+    "unionOf" : {
+      "@list" : [ "sho:Category", "sho:Hazard" ]
+    }
+  }, {
+    "@id" : "_:b8",
+    "@type" : "rdfs:Datatype",
+    "onDatatype" : "xsd:integer",
+    "withRestrictions" : {
+      "@list" : [ "_:b3", "_:b0" ]
+    }
+  }, {
+    "@id" : "dcterms:contributor",
+    "@type" : "owl:AnnotationProperty"
   }, {
     "@id" : "dcterms:creator",
     "@type" : "owl:AnnotationProperty"
@@ -69,19 +72,24 @@
   }, {
     "@id" : "https://purl.org/sifis/hazards",
     "@type" : "owl:Ontology",
+    "contributor" : "https://www.dauin.polito.it/it/personale/scheda/(nominativo)/luigi.derussis",
     "creator" : "https://www.iit.cnr.it/marco.rasori/",
     "dcterms:description" : {
       "@language" : "en",
       "@value" : "The SIFIS-Home Hazards Ontology (SHO) has been created to extend the Thing Description (TD) of smart devices within Web of Things (WoT). The ontology defines various types of hazard as Individual which can be used to characterise Properties, Actions, and Events in a TD."
     },
-    "modified" : "2022-01-13",
+    "modified" : {
+      "@language" : "en",
+      "@value" : "2022-01-20"
+    },
+    "publisher" : "https://www.sifis-home.eu",
     "title" : {
       "@language" : "en",
-      "@value" : "The SIFIS-Home hazards ontology"
+      "@value" : "The SIFIS-Home Hazards Ontology"
     },
     "preferredNamespacePrefix" : "sho",
     "preferredNamespaceUri" : "https://purl.org/sifis/hazards",
-    "versionInfo" : "v1.0.0"
+    "versionInfo" : "v1.0.1"
   }, {
     "@id" : "sho:AirPoisoning",
     "@type" : "owl:NamedIndividual",
@@ -98,7 +106,7 @@
     },
     "description" : "The execution may release toxic gases",
     "hasCategory" : "sho:Safety",
-    "name" : "air poisoning"
+    "name" : "Air poisoning"
   }, {
     "@id" : "sho:Asphyxia",
     "@type" : "owl:NamedIndividual",
@@ -115,7 +123,7 @@
     },
     "description" : "The execution may cause oxygen deficiency by gaseous substances",
     "hasCategory" : "sho:Safety",
-    "name" : "asphyxia"
+    "name" : "Asphyxia"
   }, {
     "@id" : "sho:AudioVideoRecordAndStore",
     "@type" : "owl:NamedIndividual",
@@ -132,7 +140,7 @@
     },
     "description" : "The execution authorises the app to record and save a video with audio on persistent storage",
     "hasCategory" : "sho:Privacy",
-    "name" : "audio video record and store"
+    "name" : "Audio video record and store"
   }, {
     "@id" : "sho:AudioVideoStream",
     "@type" : "owl:NamedIndividual",
@@ -149,7 +157,7 @@
     },
     "description" : "The execution authorises the app to obtain a video stream with audio",
     "hasCategory" : "sho:Privacy",
-    "name" : "audio video stream"
+    "name" : "Audio video stream"
   }, {
     "@id" : "sho:Category",
     "@type" : "owl:Class",
@@ -178,7 +186,7 @@
     },
     "description" : "The execution enables a device that consumes electricity",
     "hasCategory" : "sho:Financial",
-    "name" : "electric energy consumption",
+    "name" : "Electric energy consumption",
     "riskScore" : ""
   }, {
     "@id" : "sho:Explosion",
@@ -196,7 +204,7 @@
     },
     "description" : "The execution may cause an explosion",
     "hasCategory" : "sho:Safety",
-    "name" : "explosion"
+    "name" : "Explosion"
   }, {
     "@id" : "sho:Financial",
     "@type" : "owl:NamedIndividual",
@@ -212,7 +220,7 @@
       "@value" : "Financial"
     },
     "description" : "Category which includes all the financial-related hazards.",
-    "name" : "financial"
+    "name" : "Financial"
   }, {
     "@id" : "sho:FireHazard",
     "@type" : "owl:NamedIndividual",
@@ -229,7 +237,7 @@
     },
     "description" : "The execution may cause fire",
     "hasCategory" : "sho:Safety",
-    "name" : "fire hazard",
+    "name" : "Fire hazard",
     "riskScore" : ""
   }, {
     "@id" : "sho:GasConsumption",
@@ -247,7 +255,7 @@
     },
     "description" : "The execution enables a device that consumes gas",
     "hasCategory" : "sho:Financial",
-    "name" : "gas consumption",
+    "name" : "Gas consumption",
     "riskScore" : ""
   }, {
     "@id" : "sho:Hazard",
@@ -277,7 +285,7 @@
     },
     "description" : "The execution authorises the app to get and save information about the app's energy impact on the device the app runs on",
     "hasCategory" : "sho:Privacy",
-    "name" : "log energy consumption"
+    "name" : "Log energy consumption"
   }, {
     "@id" : "sho:LogUsageTime",
     "@type" : "owl:NamedIndividual",
@@ -294,7 +302,7 @@
     },
     "description" : "The execution authorises the app to get and save information about the app's duration of use",
     "hasCategory" : "sho:Privacy",
-    "name" : "log usage time"
+    "name" : "Log usage time"
   }, {
     "@id" : "sho:PaySubscriptionFee",
     "@type" : "owl:NamedIndividual",
@@ -311,7 +319,7 @@
     },
     "description" : "The execution authorises the app to use payment information and make a periodic payment",
     "hasCategory" : "sho:Financial",
-    "name" : "pay subscription fee"
+    "name" : "Pay subscription fee"
   }, {
     "@id" : "sho:PowerOutage",
     "@type" : "owl:NamedIndividual",
@@ -328,7 +336,7 @@
     },
     "description" : "The execution may cause an interruption in the supply of electricity",
     "hasCategory" : "sho:Safety",
-    "name" : "power outage",
+    "name" : "Power outage",
     "riskScore" : ""
   }, {
     "@id" : "sho:PowerSurge",
@@ -346,7 +354,7 @@
     },
     "description" : "The execution may lead to exposure to high voltages",
     "hasCategory" : "sho:Safety",
-    "name" : "power surge"
+    "name" : "Power surge"
   }, {
     "@id" : "sho:Privacy",
     "@type" : "owl:NamedIndividual",
@@ -362,7 +370,7 @@
       "@value" : "Privacy"
     },
     "description" : "Category which includes all the privacy-related hazards.",
-    "name" : "privacy"
+    "name" : "Privacy"
   }, {
     "@id" : "sho:RecordIssuedCommands",
     "@type" : "owl:NamedIndividual",
@@ -379,7 +387,7 @@
     },
     "description" : "The execution authorises the app to get and save user inputs",
     "hasCategory" : "sho:Privacy",
-    "name" : "record issued commands"
+    "name" : "Record issued commands"
   }, {
     "@id" : "sho:RecordUserPreferences",
     "@type" : "owl:NamedIndividual",
@@ -396,7 +404,7 @@
     },
     "description" : "The execution authorises the app to get and save information about the user's preferences",
     "hasCategory" : "sho:Privacy",
-    "name" : "record user preferences"
+    "name" : "Record user preferences"
   }, {
     "@id" : "sho:Safety",
     "@type" : "owl:NamedIndividual",
@@ -412,7 +420,7 @@
       "@value" : "Safety"
     },
     "description" : "Category which includes all the safety-related hazards.",
-    "name" : "safety"
+    "name" : "Safety"
   }, {
     "@id" : "sho:SpendMoney",
     "@type" : "owl:NamedIndividual",
@@ -429,7 +437,7 @@
     },
     "description" : "The execution authorises the app to use payment information and make a payment transaction",
     "hasCategory" : "sho:Financial",
-    "name" : "spend money"
+    "name" : "Spend money"
   }, {
     "@id" : "sho:SpoiledFood",
     "@type" : "owl:NamedIndividual",
@@ -446,7 +454,7 @@
     },
     "description" : "The execution may lead to rotten food",
     "hasCategory" : "sho:Safety",
-    "name" : "spoiled food"
+    "name" : "Spoiled food"
   }, {
     "@id" : "sho:TakeDeviceScreenshots",
     "@type" : "owl:NamedIndividual",
@@ -463,7 +471,7 @@
     },
     "description" : "The execution authorises the app to read the display output and take screenshots of it",
     "hasCategory" : "sho:Privacy",
-    "name" : "take device screenshots"
+    "name" : "Take device screenshots"
   }, {
     "@id" : "sho:TakePictures",
     "@type" : "owl:NamedIndividual",
@@ -480,7 +488,7 @@
     },
     "description" : "The execution authorises the app to use a camera and take photos",
     "hasCategory" : "sho:Privacy",
-    "name" : "take pictures"
+    "name" : "Take pictures"
   }, {
     "@id" : "sho:UnauthorisedPhysicalAccess",
     "@type" : "owl:NamedIndividual",
@@ -497,7 +505,7 @@
     },
     "description" : "The execution disables a protection mechanism and unauthorised individuals may physically enter home",
     "hasCategory" : "sho:Safety",
-    "name" : "unauthorised physical access"
+    "name" : "Unauthorised physical access"
   }, {
     "@id" : "sho:WaterConsumption",
     "@type" : "owl:NamedIndividual",
@@ -514,7 +522,7 @@
     },
     "description" : "The execution enables a device that consumes water",
     "hasCategory" : "sho:Financial",
-    "name" : "water consumption",
+    "name" : "Water consumption",
     "riskScore" : ""
   }, {
     "@id" : "sho:WaterFlooding",
@@ -532,7 +540,7 @@
     },
     "description" : "The execution allows water usage which may lead to flood",
     "hasCategory" : "sho:Safety",
-    "name" : "water flooding"
+    "name" : "Water flooding"
   }, {
     "@id" : "sho:description",
     "@type" : "owl:DatatypeProperty",
@@ -542,7 +550,7 @@
       "@language" : "en",
       "@value" : "A relationship identifying the description of either a hazard or a category."
     },
-    "domain" : "_:b0",
+    "domain" : "_:b6",
     "label" : {
       "@language" : "en",
       "@value" : "description"
@@ -585,7 +593,7 @@
       "@language" : "en",
       "@value" : "An integer in the range from zero to ten included. [0,10]"
     },
-    "equivalentClass" : "_:b4"
+    "equivalentClass" : "_:b8"
   }, {
     "@id" : "sho:name",
     "@type" : "owl:DatatypeProperty",
@@ -595,7 +603,7 @@
       "@language" : "en",
       "@value" : "A relationship identifying the name of either a hazard or a category."
     },
-    "domain" : "_:b3",
+    "domain" : "_:b4",
     "label" : {
       "@language" : "en",
       "@value" : "name"
@@ -645,9 +653,13 @@
       "@id" : "https://purl.org/sifis/hazards#hasCategory",
       "@type" : "@id"
     },
-    "unionOf" : {
-      "@id" : "http://www.w3.org/2002/07/owl#unionOf",
-      "@type" : "@id"
+    "riskScore" : {
+      "@id" : "https://purl.org/sifis/hazards#riskScore",
+      "@type" : "https://purl.org/sifis/hazards#level"
+    },
+    "maxInclusive" : {
+      "@id" : "http://www.w3.org/2001/XMLSchema#maxInclusive",
+      "@type" : "http://www.w3.org/2001/XMLSchema#integer"
     },
     "rest" : {
       "@id" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest",
@@ -657,9 +669,13 @@
       "@id" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#first",
       "@type" : "@id"
     },
-    "riskScore" : {
-      "@id" : "https://purl.org/sifis/hazards#riskScore",
-      "@type" : "https://purl.org/sifis/hazards#level"
+    "minInclusive" : {
+      "@id" : "http://www.w3.org/2001/XMLSchema#minInclusive",
+      "@type" : "http://www.w3.org/2001/XMLSchema#integer"
+    },
+    "unionOf" : {
+      "@id" : "http://www.w3.org/2002/07/owl#unionOf",
+      "@type" : "@id"
     },
     "rangeIncludes" : {
       "@id" : "http://schema.org/rangeIncludes",
@@ -677,18 +693,6 @@
       "@id" : "http://www.w3.org/2000/01/rdf-schema#domain",
       "@type" : "@id"
     },
-    "withRestrictions" : {
-      "@id" : "http://www.w3.org/2002/07/owl#withRestrictions",
-      "@type" : "@id"
-    },
-    "onDatatype" : {
-      "@id" : "http://www.w3.org/2002/07/owl#onDatatype",
-      "@type" : "@id"
-    },
-    "maxInclusive" : {
-      "@id" : "http://www.w3.org/2001/XMLSchema#maxInclusive",
-      "@type" : "http://www.w3.org/2001/XMLSchema#integer"
-    },
     "disjointWith" : {
       "@id" : "http://www.w3.org/2002/07/owl#disjointWith",
       "@type" : "@id"
@@ -697,29 +701,40 @@
       "@id" : "http://www.w3.org/2002/07/owl#equivalentClass",
       "@type" : "@id"
     },
-    "versionInfo" : {
-      "@id" : "http://www.w3.org/2002/07/owl#versionInfo"
-    },
     "preferredNamespaceUri" : {
       "@id" : "http://purl.org/vocab/vann/preferredNamespaceUri"
-    },
-    "preferredNamespacePrefix" : {
-      "@id" : "http://purl.org/vocab/vann/preferredNamespacePrefix"
     },
     "title" : {
       "@id" : "http://purl.org/dc/terms/title"
     },
-    "modified" : {
-      "@id" : "http://purl.org/dc/terms/modified",
-      "@type" : "http://www.w3.org/2001/XMLSchema#date"
+    "contributor" : {
+      "@id" : "http://purl.org/dc/terms/contributor",
+      "@type" : "@id"
+    },
+    "publisher" : {
+      "@id" : "http://purl.org/dc/terms/publisher",
+      "@type" : "@id"
     },
     "creator" : {
       "@id" : "http://purl.org/dc/terms/creator",
       "@type" : "@id"
     },
-    "minInclusive" : {
-      "@id" : "http://www.w3.org/2001/XMLSchema#minInclusive",
-      "@type" : "http://www.w3.org/2001/XMLSchema#integer"
+    "versionInfo" : {
+      "@id" : "http://www.w3.org/2002/07/owl#versionInfo"
+    },
+    "modified" : {
+      "@id" : "http://purl.org/dc/terms/modified"
+    },
+    "preferredNamespacePrefix" : {
+      "@id" : "http://purl.org/vocab/vann/preferredNamespacePrefix"
+    },
+    "withRestrictions" : {
+      "@id" : "http://www.w3.org/2002/07/owl#withRestrictions",
+      "@type" : "@id"
+    },
+    "onDatatype" : {
+      "@id" : "http://www.w3.org/2002/07/owl#onDatatype",
+      "@type" : "@id"
     },
     "@vocab" : "https://purl.org/sifis/hazards#",
     "owl" : "http://www.w3.org/2002/07/owl#",
