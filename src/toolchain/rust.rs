@@ -47,32 +47,34 @@ impl BuildTemplate for Rust {
         let mut context = HashMap::new();
         let mut hazards = Vec::new();
 
-        let check_type =
-            |v: &serde_json::Value| v.as_str().unwrap_or_default() == "owl:NamedIndividual";
         for object in ontology.graph {
             if let serde_json::Value::Object(hazard) = object {
-                if hazard.get("@type").map_or(false, |v| check_type(v)) {
-                    let id = hazard
-                        .get("@id")
-                        .unwrap()
-                        .as_str()
-                        .unwrap_or_default()
-                        .replace(":", "_");
-                    let name = hazard.get("name").unwrap().as_str().unwrap_or_default();
-                    let description = hazard
-                        .get("description")
-                        .unwrap()
-                        .as_str()
-                        .unwrap_or_default();
-                    context.insert(
-                        id.to_owned() + "_name",
-                        Value::from_serializable(&name.to_owned()),
-                    );
-                    context.insert(
-                        id.to_owned() + "_description",
-                        Value::from_serializable(&description.to_owned()),
-                    );
-                    hazards.push(id.trim_start_matches("sho_").to_owned());
+                if let Some(v) = hazard.get("rdf:type") {
+                    if let serde_json::Value::Object(hazard_type) = v {
+                        if hazard_type.get("@id").map_or(false, |v| v == "sho:Hazard") {
+                            let id = hazard
+                                .get("@id")
+                                .unwrap()
+                                .as_str()
+                                .unwrap_or_default()
+                                .replace(":", "_");
+                            let name = hazard.get("name").unwrap().as_str().unwrap_or_default();
+                            let description = hazard
+                                .get("description")
+                                .unwrap()
+                                .as_str()
+                                .unwrap_or_default();
+                            context.insert(
+                                id.to_owned() + "_name",
+                                Value::from_serializable(&name.to_owned()),
+                            );
+                            context.insert(
+                                id.to_owned() + "_description",
+                                Value::from_serializable(&description.to_owned()),
+                            );
+                            hazards.push(id.trim_start_matches("sho_").to_owned());
+                        }
+                    }
                 }
             }
         }
