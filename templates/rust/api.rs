@@ -13,6 +13,9 @@ pub fn turn_on_light() {
 
 /// {{ sho_FireHazard_name }}.
 /// {{ sho_FireHazard_description }}.
+///
+/// {{ sho_AudioVideoStream_name }}.
+/// {{ sho_AudioVideoStream_description }}.
 pub fn turn_on_oven() {
     todo!("Implement using the Wot API");
 }
