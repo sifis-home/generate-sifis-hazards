@@ -46,33 +46,43 @@ impl BuildTemplate for Rust {
     ) {
         let mut context = HashMap::new();
         let mut hazards = Vec::new();
+        let mut categories = Vec::new();
 
         for object in ontology.graph {
-            if let serde_json::Value::Object(hazard) = object {
-                if let Some(v) = hazard.get("rdf:type") {
-                    if let serde_json::Value::Object(hazard_type) = v {
-                        if hazard_type.get("@id").map_or(false, |v| v == "sho:Hazard") {
-                            let id = hazard
-                                .get("@id")
-                                .unwrap()
-                                .as_str()
-                                .unwrap_or_default()
-                                .replace(":", "_");
-                            let name = hazard.get("name").unwrap().as_str().unwrap_or_default();
-                            let description = hazard
-                                .get("description")
-                                .unwrap()
-                                .as_str()
-                                .unwrap_or_default();
-                            context.insert(
-                                id.to_owned() + "_name",
-                                Value::from_serializable(&name.to_owned()),
-                            );
-                            context.insert(
-                                id.to_owned() + "_description",
-                                Value::from_serializable(&description.to_owned()),
-                            );
-                            hazards.push(id.trim_start_matches("sho_").to_owned());
+            if let serde_json::Value::Object(object_value) = object {
+                if let Some(v) = object_value.get("rdf:type") {
+                    if let serde_json::Value::Object(object_type) = v {
+                        let id = object_value
+                            .get("@id")
+                            .unwrap()
+                            .as_str()
+                            .unwrap_or_default()
+                            .trim_start_matches("sho:");
+                        let name = object_value
+                            .get("name")
+                            .unwrap()
+                            .as_str()
+                            .unwrap_or_default();
+                        let description = object_value
+                            .get("description")
+                            .unwrap()
+                            .as_str()
+                            .unwrap_or_default();
+                        context.insert(
+                            id.to_owned() + "_name",
+                            Value::from_serializable(&name.to_owned()),
+                        );
+                        context.insert(
+                            id.to_owned() + "_description",
+                            Value::from_serializable(&description.to_owned()),
+                        );
+                        if object_type.get("@id").map_or(false, |v| v == "sho:Hazard") {
+                            hazards.push(id.to_owned());
+                        } else if object_type
+                            .get("@id")
+                            .map_or(false, |v| v == "sho:Category")
+                        {
+                            categories.push(id.to_owned());
                         }
                     }
                 }
@@ -80,6 +90,10 @@ impl BuildTemplate for Rust {
         }
 
         context.insert("hazards".to_string(), Value::from_serializable(&hazards));
+        context.insert(
+            "categories".to_string(),
+            Value::from_serializable(&categories),
+        );
 
         context.insert(
             "name".to_owned(),
