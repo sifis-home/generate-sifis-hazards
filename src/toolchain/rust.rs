@@ -2,12 +2,12 @@ use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
 use minijinja::value::Value;
+use serde::Serialize;
 
 use crate::{builtin_templates, BuildTemplate, Ontology};
 
 static RUST_TEMPLATES: &[(&str, &str)] = &builtin_templates!["rust" =>
-    ("rs.api", "api.rs"),
-    ("toml.Cargo", "Cargo.toml")
+    ("rs.api", "api.rs")
 ];
 
 pub(crate) struct Rust;
@@ -17,26 +17,26 @@ impl Rust {
         Self
     }
 
-    fn project_structure(
-        api_name: &str,
-        output_path: &Path,
-    ) -> (HashMap<PathBuf, &'static str>, Vec<PathBuf>) {
-        let output = output_path.to_path_buf().join(api_name);
-        let src = output.join("src");
+    fn project_structure(output_path: &Path) -> (HashMap<PathBuf, &'static str>, Vec<PathBuf>) {
+        let output = output_path.to_path_buf().join("src");
 
         let mut template_files = HashMap::new();
 
-        template_files.insert(output.join("Cargo.toml"), "toml.Cargo");
-        template_files.insert(src.join("lib.rs"), "rs.api");
+        template_files.insert(output.join("ontology.rs"), "rs.api");
 
-        (template_files, vec![output, src])
+        (template_files, vec![output])
     }
+}
+
+#[derive(Serialize)]
+struct Data {
+    description: String,
+    name: String,
 }
 
 impl BuildTemplate for Rust {
     fn define(
         &self,
-        api_name: &str,
         ontology: Ontology,
         output_path: &Path,
     ) -> (
@@ -58,31 +58,24 @@ impl BuildTemplate for Rust {
                             .as_str()
                             .unwrap_or_default()
                             .trim_start_matches("sho:");
-                        let name = object_value
-                            .get("name")
-                            .unwrap()
-                            .as_str()
-                            .unwrap_or_default();
                         let description = object_value
                             .get("description")
                             .unwrap()
                             .as_str()
                             .unwrap_or_default();
-                        context.insert(
-                            id.to_owned() + "_name",
-                            Value::from_serializable(&name.to_owned()),
-                        );
-                        context.insert(
-                            id.to_owned() + "_description",
-                            Value::from_serializable(&description.to_owned()),
-                        );
                         if object_type.get("@id").map_or(false, |v| v == "sho:Hazard") {
-                            hazards.push(id.to_owned());
+                            hazards.push(Data {
+                                description: description.to_owned(),
+                                name: id.to_owned(),
+                            });
                         } else if object_type
                             .get("@id")
                             .map_or(false, |v| v == "sho:Category")
                         {
-                            categories.push(id.to_owned());
+                            categories.push(Data {
+                                description: description.to_owned(),
+                                name: id.to_owned(),
+                            });
                         }
                     }
                 }
@@ -95,12 +88,7 @@ impl BuildTemplate for Rust {
             Value::from_serializable(&categories),
         );
 
-        context.insert(
-            "name".to_owned(),
-            Value::from_serializable(&api_name.to_owned()),
-        );
-
-        let (files, dirs) = Rust::project_structure(api_name, output_path);
+        let (files, dirs) = Rust::project_structure(output_path);
 
         (files, dirs, context)
     }

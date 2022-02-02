@@ -86,7 +86,6 @@ impl SifisTemplate {
 trait BuildTemplate {
     fn define(
         &self,
-        api_name: &str,
         ontology: Ontology,
         output_path: &Path,
     ) -> (
@@ -97,8 +96,8 @@ trait BuildTemplate {
 
     fn get_templates() -> &'static [(&'static str, &'static str)];
 
-    fn build(&self, api_name: &str, ontology: Ontology, output_path: &Path) -> SifisTemplate {
-        let (files, dirs, context) = self.define(api_name, ontology, output_path);
+    fn build(&self, ontology: Ontology, output_path: &Path) -> SifisTemplate {
+        let (files, dirs, context) = self.define(ontology, output_path);
         let source = build_source(Self::get_templates());
 
         SifisTemplate {
@@ -124,7 +123,6 @@ fn build_source(templates: &[(&str, &str)]) -> Source {
 /// Adds hazards to Sifis APIs
 pub fn adds_hazards_to_api(
     template_type: Templates,
-    api_name: &str,
     ontology_path: &Path,
     output_path: &Path,
 ) -> Result<()> {
@@ -136,7 +134,7 @@ pub fn adds_hazards_to_api(
     let ontology = serde_json::from_reader(reader)?;
 
     let template = match template_type {
-        Templates::Rust => Rust::create().build(api_name, ontology, output_path),
+        Templates::Rust => Rust::create().build(ontology, output_path),
     };
 
     template.render()
