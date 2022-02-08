@@ -29,9 +29,17 @@ impl Rust {
 }
 
 #[derive(Serialize)]
-struct Data {
+struct HazardData {
     description: String,
     name: String,
+    category: String,
+}
+
+#[derive(Serialize)]
+struct CategoryData {
+    description: String,
+    name: String,
+    hazards: Vec<String>,
 }
 
 impl BuildTemplate for Rust {
@@ -46,6 +54,7 @@ impl BuildTemplate for Rust {
     ) {
         let mut context = HashMap::new();
         let mut hazards = Vec::new();
+        let mut categories_hazards = HashMap::new();
         let mut categories = Vec::new();
 
         for object in ontology.graph {
@@ -64,23 +73,39 @@ impl BuildTemplate for Rust {
                             .as_str()
                             .unwrap_or_default();
                         if object_type.get("@id").map_or(false, |v| v == "sho:Hazard") {
-                            hazards.push(Data {
+                            let has_category = object_value
+                                .get("hasCategory")
+                                .unwrap()
+                                .as_str()
+                                .unwrap_or_default()
+                                .trim_start_matches("sho:");
+                            hazards.push(HazardData {
                                 description: description.to_owned(),
                                 name: id.to_owned(),
+                                category: has_category.to_owned(),
                             });
+                            categories_hazards
+                                .entry(has_category.to_owned())
+                                .or_insert_with(Vec::new)
+                                .push(id.to_owned());
                         } else if object_type
                             .get("@id")
                             .map_or(false, |v| v == "sho:Category")
                         {
-                            categories.push(Data {
+                            categories.push(CategoryData {
                                 description: description.to_owned(),
                                 name: id.to_owned(),
+                                hazards: Vec::new(),
                             });
                         }
                     }
                 }
             }
         }
+
+        categories.iter_mut().for_each(|category| {
+            category.hazards = categories_hazards.get(&category.name).unwrap().to_owned();
+        });
 
         context.insert("hazards".to_string(), Value::from_serializable(&hazards));
         context.insert(
