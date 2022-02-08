@@ -1,3 +1,5 @@
+#![allow(clippy::enum_variant_names)]
+
 use crate::thing::Hazard as ThingHazard;
 
 /// Hazards type.
