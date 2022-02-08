@@ -59,45 +59,43 @@ impl BuildTemplate for Rust {
 
         for object in ontology.graph {
             if let serde_json::Value::Object(object_value) = object {
-                if let Some(v) = object_value.get("rdf:type") {
-                    if let serde_json::Value::Object(object_type) = v {
-                        let id = object_value
-                            .get("@id")
+                if let Some(serde_json::Value::Object(object_type)) = object_value.get("rdf:type") {
+                    let id = object_value
+                        .get("@id")
+                        .unwrap()
+                        .as_str()
+                        .unwrap_or_default()
+                        .trim_start_matches("sho:");
+                    let description = object_value
+                        .get("description")
+                        .unwrap()
+                        .as_str()
+                        .unwrap_or_default();
+                    if object_type.get("@id").map_or(false, |v| v == "sho:Hazard") {
+                        let has_category = object_value
+                            .get("hasCategory")
                             .unwrap()
                             .as_str()
                             .unwrap_or_default()
                             .trim_start_matches("sho:");
-                        let description = object_value
-                            .get("description")
-                            .unwrap()
-                            .as_str()
-                            .unwrap_or_default();
-                        if object_type.get("@id").map_or(false, |v| v == "sho:Hazard") {
-                            let has_category = object_value
-                                .get("hasCategory")
-                                .unwrap()
-                                .as_str()
-                                .unwrap_or_default()
-                                .trim_start_matches("sho:");
-                            hazards.push(HazardData {
-                                description: description.to_owned(),
-                                name: id.to_owned(),
-                                category: has_category.to_owned(),
-                            });
-                            categories_hazards
-                                .entry(has_category.to_owned())
-                                .or_insert_with(Vec::new)
-                                .push(id.to_owned());
-                        } else if object_type
-                            .get("@id")
-                            .map_or(false, |v| v == "sho:Category")
-                        {
-                            categories.push(CategoryData {
-                                description: description.to_owned(),
-                                name: id.to_owned(),
-                                hazards: Vec::new(),
-                            });
-                        }
+                        hazards.push(HazardData {
+                            description: description.to_owned(),
+                            name: id.to_owned(),
+                            category: has_category.to_owned(),
+                        });
+                        categories_hazards
+                            .entry(has_category.to_owned())
+                            .or_insert_with(Vec::new)
+                            .push(id.to_owned());
+                    } else if object_type
+                        .get("@id")
+                        .map_or(false, |v| v == "sho:Category")
+                    {
+                        categories.push(CategoryData {
+                            description: description.to_owned(),
+                            name: id.to_owned(),
+                            hazards: Vec::new(),
+                        });
                     }
                 }
             }
