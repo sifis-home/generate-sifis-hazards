@@ -8,6 +8,16 @@ pub enum Hazard {
 {%- endfor -%}
 }
 
+impl ToString for Hazard {
+    fn to_string(&self) -> String {
+        match self {
+            {%- for hazard in hazards -%}
+                Self::{{ hazard.name }} => "{{ hazard.name }}",
+            {%- endfor -%}
+        }.to_owned()
+    }
+}
+
 impl Hazard {
 
     /// Returns the `Hazard` type associated to a Thing.
@@ -17,7 +27,7 @@ impl Hazard {
     pub fn has_hazard(thing_hazard: &ThingHazard) -> Option<Self> {
         match thing_hazard.name.as_str() {
             {%- for hazard in hazards -%}
-                "{{ hazard.name }}" => Some(Hazard::{{ hazard.name }}),
+                "{{ hazard.name }}" => Some(Self::{{ hazard.name }}),
             {%- endfor -%}
             _ => None,
         }
@@ -57,6 +67,16 @@ pub enum Category {
     /// {{ category.description }}
     {{ category.name }},
 {%- endfor -%}
+}
+
+impl ToString for Category {
+    fn to_string(&self) -> String {
+        match self {
+            {%- for category in categories -%}
+                Self::{{ category.name }} => "{{ category.name }}",
+            {%- endfor -%}
+        }.to_owned()
+    }
 }
 
 impl Category {
