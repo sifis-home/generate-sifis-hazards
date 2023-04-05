@@ -27,7 +27,7 @@ jobs:
       shell: bash
       id: tagName
       run: |
-        VERSION=$(cargo pkgid | cut -d# -f2 | cut -d: -f2)
+        VERSION=$(cargo pkgid | cut -d# -f2)
         echo "tag=$VERSION" >> $GITHUB_OUTPUT
 
     - name: Build package
@@ -76,8 +76,6 @@ jobs:
 
     - name: Build generate-sifis-hazards
       run: |
-        # TODO: Remember to add RUSTFLAGS=+crt-static for musl target when
-        # static linkage will not be the default behaviour
         cargo build --release --target ${{ matrix.target }}
 
     - name: Strip binary
@@ -87,7 +85,7 @@ jobs:
     - name: Get the version
       id: tagName
       run: |
-        VERSION=$(cargo pkgid | cut -d# -f2 | cut -d: -f2)
+        VERSION=$(cargo pkgid | cut -d# -f2)
         echo "tag=$VERSION" >> $GITHUB_OUTPUT
 
     - name: Build package
@@ -127,7 +125,7 @@ jobs:
       - name: Get version
         id: tagName
         run: |
-          VERSION=$(cargo pkgid | cut -d# -f2 | cut -d: -f2)
+          VERSION=$(cargo pkgid | cut -d# -f2)
           echo "tag=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Download artifacts
