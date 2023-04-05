@@ -5,9 +5,9 @@ use std::collections::HashMap;
 use std::fs::{create_dir_all, write, File};
 use std::io::BufReader;
 use std::path::{Path, PathBuf};
+use std::str::FromStr;
 
 use anyhow::Result;
-use arg_enum_proc_macro::ArgEnum;
 use minijinja::value::Value;
 use minijinja::{Environment, Source};
 use serde::Deserialize;
@@ -17,25 +17,26 @@ use filters::*;
 use toolchain::*;
 
 /// Supported templates
-#[derive(ArgEnum, Debug)]
+#[derive(Debug, Clone)]
 pub enum Templates {
     /// Generate hazards documentation for Rust APIs
-    #[arg_enum(name = "rust")]
     Rust,
 }
 
-impl Templates {
-    pub fn info() -> String {
-        let mut info = "Available built-in templates:\n".to_string();
-        for (names, description) in Templates::descriptions() {
-            std::fmt::write(
-                &mut info,
-                format_args!("    {:<15} {}\n", names[0], description[0]),
-            )
-            .unwrap();
-        }
+impl FromStr for Templates {
+    type Err = String;
 
-        info
+    fn from_str(template: &str) -> Result<Self, Self::Err> {
+        match template {
+            "rust" => Ok(Self::Rust),
+            template => Err(format!("{template:?} is not a supported template")),
+        }
+    }
+}
+
+impl Templates {
+    pub const fn all() -> &'static [&'static str] {
+        &["rust"]
     }
 }
 

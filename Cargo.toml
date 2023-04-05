@@ -12,11 +12,10 @@ homepage = "https://github.com/sifis-home/generate-sifis-hazards"
 
 [dependencies]
 anyhow = "1"
-clap = { version = "3.0", features = ["derive"] }
+clap = { version = "4", features = ["derive"] }
 minijinja = { version = "0.12", features = ["source"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1" }
-arg_enum_proc_macro = "0.3.2"
 lazy_static = "1.4"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
