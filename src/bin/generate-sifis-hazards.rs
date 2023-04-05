@@ -5,7 +5,7 @@ use clap::Parser;
 
 use tracing_subscriber::EnvFilter;
 
-use generate_sifis_hazards::{adds_hazards_to_api, Templates};
+use generate_sifis_hazards::{HazardsProducer, Templates};
 
 #[derive(Parser, Debug)]
 struct Opts {
@@ -24,7 +24,7 @@ struct Opts {
     verbose: bool,
 }
 
-fn main() -> anyhow::Result<()> {
+fn main() {
     let opts = Opts::parse();
 
     let filter_layer = EnvFilter::try_from_default_env()
@@ -43,7 +43,7 @@ fn main() -> anyhow::Result<()> {
         .with_writer(std::io::stderr)
         .init();
 
-    adds_hazards_to_api(opts.template, &opts.ontology_path, &opts.output_path)?;
-
-    Ok(())
+    HazardsProducer::new()
+        .run(opts.template, opts.ontology_path, opts.output_path)
+        .unwrap();
 }

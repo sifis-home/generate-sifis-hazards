@@ -1,3 +1,4 @@
+mod error;
 mod filters;
 mod toolchain;
 
@@ -7,12 +8,12 @@ use std::io::BufReader;
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
 
-use anyhow::Result;
 use minijinja::value::Value;
 use minijinja::{Environment, Source};
 use serde::Deserialize;
 use tracing::debug;
 
+use error::*;
 use filters::*;
 use toolchain::*;
 
@@ -23,20 +24,20 @@ pub enum Templates {
     Rust,
 }
 
+impl Templates {
+    pub const fn all() -> &'static [&'static str] {
+        &["rust"]
+    }
+}
+
 impl FromStr for Templates {
     type Err = String;
 
-    fn from_str(template: &str) -> Result<Self, Self::Err> {
+    fn from_str(template: &str) -> std::result::Result<Self, Self::Err> {
         match template {
             "rust" => Ok(Self::Rust),
             template => Err(format!("{template:?} is not a supported template")),
         }
-    }
-}
-
-impl Templates {
-    pub const fn all() -> &'static [&'static str] {
-        &["rust"]
     }
 }
 
@@ -124,22 +125,50 @@ fn build_source(templates: &[(&str, &str)]) -> Source {
     source
 }
 
-/// Adds hazards to Sifis APIs
-pub fn adds_hazards_to_api(
-    template_type: Templates,
-    ontology_path: &Path,
-    output_path: &Path,
-) -> Result<()> {
-    // Deserialize ontology
-    let file = File::open(ontology_path)?;
-    let reader = BufReader::new(file);
+/// Produce hazards for Sifis APIs.
+#[derive(Debug)]
+pub struct HazardsProducer;
 
-    // Read the JSON contents of the file as an instance of `User`.
-    let ontology = serde_json::from_reader(reader)?;
+impl Default for HazardsProducer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
-    let template = match template_type {
-        Templates::Rust => Rust::create().build(ontology, output_path),
-    };
+impl HazardsProducer {
+    /// Creates a new `HazardsProducer` instance.
+    pub fn new() -> Self {
+        Self
+    }
 
-    template.render()
+    /// Runs hazards producer.
+    pub fn run<P: AsRef<Path>>(
+        self,
+        template_type: Templates,
+        ontology_path: P,
+        output_path: P,
+    ) -> error::Result<()> {
+        // Check if ontology path is a file.
+        if ontology_path.as_ref().is_dir() {
+            return Err(Error::FormatPath("Path to ontology MUST be a file path"));
+        }
+
+        // Check if output path is a file.
+        if output_path.as_ref().is_dir() {
+            return Err(Error::FormatPath("Output path MUST be a file path"));
+        }
+
+        // Deserialize ontology
+        let file = File::open(ontology_path)?;
+        let reader = BufReader::new(file);
+
+        // Read the JSON contents of the file as an instance of `User`.
+        let ontology = serde_json::from_reader(reader)?;
+
+        let template = match template_type {
+            Templates::Rust => Rust::create().build(ontology, output_path.as_ref()),
+        };
+
+        template.render()
+    }
 }
