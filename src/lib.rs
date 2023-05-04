@@ -3,7 +3,7 @@ mod filters;
 mod toolchain;
 
 use std::collections::HashMap;
-use std::fs::{create_dir_all, write, File};
+use std::fs::{create_dir_all, read_to_string, write, File};
 use std::io::BufReader;
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
@@ -99,11 +99,11 @@ trait BuildTemplate {
         HashMap<String, Value>,
     );
 
-    fn get_templates() -> &'static [(&'static str, &'static str)];
+    fn create_source(&self) -> Source;
 
     fn build(&self, ontology: Ontology, output_path: &Path) -> SifisTemplate {
         let (files, dirs, context) = self.define(ontology, output_path);
-        let source = build_source(Self::get_templates());
+        let source = self.create_source();
 
         SifisTemplate {
             context,
@@ -114,26 +114,9 @@ trait BuildTemplate {
     }
 }
 
-fn build_source(templates: &[(&str, &str)]) -> Source {
-    let mut source = Source::new();
-    for (name, src) in templates {
-        source
-            .add_template(*name, *src)
-            .expect("Internal error, built-in template");
-    }
-
-    source
-}
-
 /// Produce hazards for Sifis APIs.
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct HazardsProducer;
-
-impl Default for HazardsProducer {
-    fn default() -> Self {
-        Self::new()
-    }
-}
 
 impl HazardsProducer {
     /// Creates a new `HazardsProducer` instance.
@@ -141,21 +124,49 @@ impl HazardsProducer {
         Self
     }
 
+    /// Runs hazards producer using an external template.
+    pub fn run_with_external_template<P: AsRef<Path>>(
+        self,
+        ontology_path: P,
+        output_path: P,
+        template: (&'static str, P),
+    ) -> error::Result<()> {
+        // Check output path
+        self.check_output_path(&output_path)?;
+
+        let ontology = self.open_ontology_file(ontology_path)?;
+
+        let external_template = read_to_string(template.1)?;
+
+        let template = External::create((template.0, &external_template))
+            .build(ontology, output_path.as_ref());
+
+        template.render()
+    }
+
     /// Runs hazards producer.
     pub fn run<P: AsRef<Path>>(
         self,
-        template_type: Templates,
         ontology_path: P,
         output_path: P,
+        template_type: Templates,
     ) -> error::Result<()> {
+        // Check output path
+        self.check_output_path(&output_path)?;
+
+        let ontology = self.open_ontology_file(ontology_path)?;
+
+        let template = match template_type {
+            Templates::Rust => Rust::create().build(ontology, output_path.as_ref()),
+        };
+
+        template.render()
+    }
+
+    fn open_ontology_file<P: AsRef<Path>>(&self, ontology_path: P) -> error::Result<Ontology> {
         // Check if ontology path is a file.
         if ontology_path.as_ref().is_dir() {
             return Err(Error::FormatPath("Path to ontology MUST be a file path"));
-        }
-
-        // Check if output path is a file.
-        if output_path.as_ref().is_dir() {
-            return Err(Error::FormatPath("Output path MUST be a file path"));
         }
 
         // Deserialize ontology
@@ -165,10 +176,15 @@ impl HazardsProducer {
         // Read the JSON contents of the file as an instance of `User`.
         let ontology = serde_json::from_reader(reader)?;
 
-        let template = match template_type {
-            Templates::Rust => Rust::create().build(ontology, output_path.as_ref()),
-        };
+        Ok(ontology)
+    }
 
-        template.render()
+    #[inline(always)]
+    fn check_output_path<P: AsRef<Path>>(&self, output_path: P) -> error::Result<()> {
+        // Check if output path is a file.
+        if output_path.as_ref().is_dir() {
+            return Err(Error::FormatPath("Output path MUST be a file path"));
+        }
+        Ok(())
     }
 }

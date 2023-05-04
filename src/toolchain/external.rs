@@ -7,23 +7,24 @@ use serde::Serialize;
 
 use crate::{BuildTemplate, Ontology};
 
-static RUST_TEMPLATES: &[(&str, &str)] = &crate::builtin_templates!["rust" =>
-    ("rs.api", "api.rs")
-];
+pub(crate) struct External<'a> {
+    template: (&'static str, &'a str),
+}
 
-pub(crate) struct Rust;
-
-impl Rust {
-    pub(crate) fn create() -> Self {
-        Self
+impl<'a> External<'a> {
+    pub(crate) fn create(template: (&'static str, &'a str)) -> Self {
+        Self { template }
     }
 
-    fn project_structure(output_path: &Path) -> (HashMap<PathBuf, &'static str>, Vec<PathBuf>) {
+    fn project_structure(
+        &self,
+        output_path: &Path,
+    ) -> (HashMap<PathBuf, &'static str>, Vec<PathBuf>) {
         let output = output_path.to_path_buf().join("src");
 
         let mut template_files = HashMap::new();
 
-        template_files.insert(output.join("ontology.rs"), "rs.api");
+        template_files.insert(output.join("ontology.rs"), self.template.0);
 
         (template_files, vec![output])
     }
@@ -43,7 +44,7 @@ struct CategoryData {
     hazards: Vec<String>,
 }
 
-impl BuildTemplate for Rust {
+impl<'a> BuildTemplate for External<'a> {
     fn define(
         &self,
         ontology: Ontology,
@@ -112,12 +113,12 @@ impl BuildTemplate for Rust {
             Value::from_serializable(&categories),
         );
 
-        let (files, dirs) = Rust::project_structure(output_path);
+        let (files, dirs) = self.project_structure(output_path);
 
         (files, dirs, context)
     }
 
     fn create_source(&self) -> Source {
-        super::build_source(RUST_TEMPLATES)
+        super::build_source(&[self.template])
     }
 }
