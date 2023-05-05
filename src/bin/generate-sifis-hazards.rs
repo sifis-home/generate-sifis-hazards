@@ -19,6 +19,9 @@ struct Opts {
     #[clap(long, short, value_parser = PossibleValuesParser::new(Templates::all())
         .map(|s| s.parse::<Templates>().unwrap()))]
     template: Templates,
+    /// Path to an external template file
+    #[clap(short, value_hint = clap::ValueHint::DirPath)]
+    external_template: Option<PathBuf>,
     /// Output the generated paths as they are produced
     #[clap(short, long)]
     verbose: bool,
@@ -43,7 +46,18 @@ fn main() {
         .with_writer(std::io::stderr)
         .init();
 
-    HazardsProducer::new()
-        .run(opts.template, opts.ontology_path, opts.output_path)
-        .unwrap();
+    let hazards_producer = HazardsProducer::new();
+    if let Some(external_template) = opts.external_template {
+        hazards_producer
+            .run_with_external_template(
+                opts.ontology_path,
+                opts.output_path,
+                ("external", external_template),
+            )
+            .unwrap();
+    } else {
+        hazards_producer
+            .run(opts.ontology_path, opts.output_path, opts.template)
+            .unwrap();
+    }
 }
